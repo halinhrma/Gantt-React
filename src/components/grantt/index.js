@@ -6,8 +6,12 @@ const { gantt } = window;
 export default class Gantt extends Component {
 
     componentDidMount() {
+
+        gantt.config.row_height = 40;
+        gantt.config.grid_resize = true;
         gantt.config.xml_date = "%d-%m-%Y";
         gantt.config.date_grid = "%d-%m-%Y";
+        gantt.config.scale_height = 40;
         // gantt.config.columns.push({ name: "progress", label: "Progress", align: "center", resize: true })
         // gantt.config.columns.add({ name: "progress", label: "Progress", align: "center" })
         gantt.config.columns = [
@@ -15,11 +19,39 @@ export default class Gantt extends Component {
             // { name: "durations", label: "DURATION", align: "center" },
             // { name: "start_date", label: "START", align: "left", min_width: 120 },
             // { name: "end_date", label: "END", align: "left", min_width: 120 },
-            // { name: "progress", label: "Progress", align: "center" },
+            {
+                name: "progress", label: "Progress", align: "center", template: function (obj) {
+                    if (obj.progress) return Math.round(obj.progress * 100) + "%"
+                    // return obj.progress
+                }
+            }
         ];
+        // gantt.templates.task_text = function (start, end, task) {
+        //     // console.log(task, "task");
+        //     // task.progress = "0"
+        //     if (task.progress)
+        //         return task.progress * 100 + "%";
+        //     return task.text
 
-        // gantt.config.scale_height = 50;
+        // };
+        gantt.templates.grid_row_class = function (start, end, task) {
+            if (task.$level > 1) {
+                return "nested_task"
+            }
+            console.log(task);
+            return "1313123";
+        };
+        // gantt.templates.text = function (start, end, task) {
+        //     console.log(task, "task");
+        //     task.progress = "0"
+        //     return "2342342342";
 
+        // };
+        // gantt.config.lightbox.sections = [
+        //     { name: "description", height: 38, map_to: "text", type: "textarea", focus: true },
+        //     { name: "progress", height: 22, map_to: "progress", type: "textarea" },
+        //     { name: "time", type: "duration", map_to: "auto" }
+        // ];
         gantt.config.scales = [
             { unit: "month", step: 1, format: "%F, %Y" },
             { unit: "day", step: 1, format: "%j, %D" }
