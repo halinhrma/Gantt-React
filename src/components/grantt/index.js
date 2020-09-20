@@ -1,11 +1,12 @@
 /*global gantt*/
 import React, { Component } from "react";
 import demo_tasks from "../../config.json"
-import './Gantt.css'
+// import './Gantt.css'
 const { gantt } = window;
 export default class Gantt extends Component {
 
     componentDidMount() {
+        gantt.config.auto_types = true;
 
         gantt.config.row_height = 40;
         gantt.config.grid_resize = true;
@@ -34,13 +35,7 @@ export default class Gantt extends Component {
         //     return task.text
 
         // };
-        gantt.templates.grid_row_class = function (start, end, task) {
-            if (task.$level > 1) {
-                return "nested_task"
-            }
-            console.log(task);
-            return "1313123";
-        };
+
         // gantt.templates.text = function (start, end, task) {
         //     console.log(task, "task");
         //     task.progress = "0"
